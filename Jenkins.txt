@@ -1,0 +1,75 @@
+For Node 1 Commands
+-# apt insta git -y
+#git --version
+Create new repo in githubane
+#git clone newrepolink,  #cd jenkins
+#Is , #ls-a
+# vim index.htm ← Give content in file
+ # cat index.html
+ #git add-A 
+#git commit -m "1.0" 
+#git config --global user.email Khpagare 1998.com".-- again give commit command #git push -u ongin master
+
+Steps for Node 2 :-
+#apt update -y
+# apt install openjdk-11-jdk-y OR apt install openjdk-11-jre -y
+# Key download from website(Jenkins installation on Ubuntu), if curl is not installed then install it
+ #curl -fssL https://pkg.jenkins.io/debian-stable/jenkins.io-2023. key l sudo tee \ /usr/share/keyrings/jenkins-key ring.asc > /dev/null
+#echo deb [signed-by=/usr/share/ key rings (jenkins-keyung. asc]\
+https://pkg.jenkins.ie/debian-stable binary/sudo bree\
+/etc/apt/sources.list.d/jenkins. list >/dev/null
+#apt-get update, 
+# apt-get install jenkins. 
+#Then copy your IP & paste in New Tab with port 8080 for eg. 192.168.20.147:8080 (my m/c IP)
+# copy that path 3 give command like below 
+# cat /var/lib/jenkins/secrets/initial Admin Password
+# Now password will generate, copy that password & paste in that new tab where there is path & continue & click on Install suggested plugins. After installation Create First Admin User for-- Jenkins Name (Jenkins), Password (jenkins), confine password, fullname (jenkins), email (jenkins@gmail.com)-> save & continue -->save & finish.
+
+In Jenkins. On dashboard → Create a job →→ Enter an item name (don't give space) (first-job) (It will create a floder in Linux) → Select freestyle → OK → Select Github project Project url (Github floder /repo link should be paste here) But don't insert .git, only give flodername (for eg. https:// github.com/Kundanpagare/jenkins)→→ In Source Code management select Git→ Repository URL (Put that same full link with .git also) →Branch to build (*/master) → In Build Triggers Select Build periodically & in schedule give * * * * *(star space star 5 stars) (you can give schedule as per your requirement, below Schedule there are explaination of that) →  Apply & save.
+If your failed → Click on failure → Go to Console olp → check there why it is not working (If there is no git install in your m/c then it will fails, if there is already git installed in your m/c, then it will not fail) So now install git in that m/c on which you are performing operation, so the Command is # apt install git docker* ssh -y. Now build it by clicking on Name dropdown arrow(first job ) → Go to the m/c &run command #cd /var/lib/jenkins/workspace) (This link/path is available in jenkins console o/p so copy from there & paste here)
+#ls #cd first-job(Jobname) #ls (o/p of this ls is index.html README.md). To go to jenkins, in google new tab give IP: 8080/ (for eg. 192.168.20.147:8080)
+ #Vim Dockfile (FROM nginx Copy. /usr/share/nginx/html/)
+#ls
+-->Go to jenkins -->create job → give name (Second-job)→ Select free style - Don't select GitHub project & also source code Management →In Build Triggers select Build after other projects are built & give projects to watch (first-job,)
+& Select Trigger only if build is stable → In Build step Select Execute shell & in command write the commands & path like - cd /var/lib/jenkins/workspace/first-job/ 
+                   sudo docker build -t myweb:1.0.
+                   sudo docker save myweb:1.0 > myweb.tar 
+-->Apply & Save
+If it fails then go to dashboard & go into job (second-job) -->configure (make changes & save), Go to terminal 
+#systemctl status jenkins, #vim /etc/sudoers (Below root write command- Jenkins ALL= (ALL) NOPASSWD:ALL )
+# cat /etc/sudoers I grep jenkins 
+#ls
+Go go jenkins & create new job → give name (finale-job) →Select free trail→ In Build Trigger Select Build after other projects one build & in Search box select (second-job,) & Triage only if build is stable →In Build Step Select execute shell & write commands → 
+cd /var/var/lib/jenkins/workspace/first-job/
+scp myweb.tar hpcsa@192.168.70.135:/home/hpcsa/
+ssh hpcsa 192.168.70.135 "sudo docker load < myweb.tar"  ssh hpcsa@ 192.168-70-135 "sudo docker run --name web1 -d -p 9000:80 myweb:1.0"
+→ Apply Save
+
+*For Node 3 commands :- 
+# apt install ssh -y
+#ss -ant
+
+For Node 2 #su -s /bin/bash jenkins 
+->/workspace/first-job $ ssh-keygen (after this command
+press enter 3 times don't give any password)
+ - $ pwd, $ cd .ssh/ ← This are optional 
+$ ssh-copy-id hpcs @ 192.168-70-135 --->Yes
+
+Password of Production user
+ $ssh hpcsa@ 192.168.70.135
+-  $ exit,.  $ ssh hpcsa@192.168-70-135,.   $ exit,.  #ls
+
+for Node 3 (Production) - # apt install docker* -y
+# systemctl start docker
+ #systemctl enable docker # ls  /home/hpcsa/
+#vim /etc/sudoers (in %sudo type this - %sudo ALL=(ALL:ALL) NOPASSWD:ALL
+then go to jenkins & build now for final job
+#docker ps
+→ Give IP: Port No in google (For eg 192.168.70.135:9000) for webpg
+ -After the change in the file, the final-job will give error after Build-now for first-job So go to the final-job & configure & in command add one more command - like below---
+ cd /var/lib/jenkins/workspace/first-job/
+scp myweb.tar hpcsa@ 192.168.70.135:/home/hpcsa/
+ssh hpcsa@192.168.70.135 "sudo docker load myweb.tar" ssh hpcsa@192.168.70.135 "sudo docker rm -f web1" 
+ssh hpcsa @192.168.70.135 "sudo docker run --name web1 -d -p 9000:80 myweb:1.0"
+Apply →Save
+→ Give IP: Port No in google i.e. (for eg. 192.168-70-135: 9000)
