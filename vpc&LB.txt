@@ -1,0 +1,44 @@
+VPC :- 
+>> VPC -> Create vpc -> vpc only ->fill the details(IPv4 CIDR-192.168.0.0/16) ->create vpc.
+
+>> Subnet(left side) -> create subnet ->vpc id (select you created vpc) -> subnetname ->
+ Availability zone -> IPv4 CIDR block (give ip of the same n/w & within its range)192.168.1.0/24
+-> create subnet.
+
+>> Internet Gateway(left side)->create internet gateway-> fill details->create gateway->attach internet
+gateway.
+
+>> Route table(left side)-> select created vpc->go to routes->edit routes->add routes-in Destination put 
+0.0.0.0/0->select internet gateway in target-> save changes.
+
+>> Now you can select this vpc in your ec2 instance->in network settings->edit->select vpc you created->
+select subnet->make auto assign public ip enable->create security group->add security group rule-> select the type http &
+anywhere->select storage 30 gb->launch instace, then perform further task to see web page.
+
+
+
+
+>>>Load Balancer:create 2 ec2 instances-make 2 T.G for 2 Instances
+for 1st instance(hpcsa-1)			for 2nd instance(hpcsa-2)
+sudo su -
+apt update -y, apt upgarde -y			apt update -y, apt upgarde -y
+apt-get install apache2 -y 			apt-get install apache2 -y 
+cd /var/www/html				cd /var/www/html
+mkdir web1					mkdir web2			
+cd web1						cd web2
+vim index.html					vim index.html
+systemctl start/enable apache2			systemctl start/enable apache2
+
+>>Target Groups -> create target group->select instances from 4 options-> targetname->protocal version(HTTP1)->health 
+check path(/web1/index.html)->next->select instance for which you created target group->Include as pending below->create T.G.
+
+>>Load Balancer ->create load balancer->in application L.B select create->give name,select internet-facing,IPv4,
+(network mapping) select VPC & then select atleast 2 locations->select security group which you want->select listeners
+& routing port 80 or which you want but for lab session select 80, then select T.G as web1-TG ->create T.G.
+
+>>Select Load Balancer which you created-> Listerners->select protocol:port->in action selection manage rules->add rule
+(+)->insert rule->in add conditons select path & put the path like (/web2*) then in add action->select forward to->select
+the 2nd T.G->Save.
+>>to display the web page --> Copy the DNS Server link & paste in google tab with /directoryname (for e.g-dnsserver/web1)
+
+
